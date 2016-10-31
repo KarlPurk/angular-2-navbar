@@ -21,7 +21,7 @@ function navbarServiceFactory(navLinks: NavbarLinks[]) {
   ],
   declarations: [NavbarComponent]
 })
-export class NavbarModule { 
+export class NavbarModule {
 
   constructor(private navbarService: NavbarService) {}
 
@@ -29,15 +29,21 @@ export class NavbarModule {
     return {ngModule: NavbarModule, providers: [provideNavLinks(navbarLinks)]};
   }
 
-  static forRoot(navbarLinks: NavbarLinks): ModuleWithProviders {
+  static forRoot(navbarLinks: NavbarLinks = []): ModuleWithProviders {
+
+    let providers = [{
+      provide: NavbarService,
+      useFactory: navbarServiceFactory,
+      deps: [NAVBAR_LINKS]
+    }];
+
+    if (navbarLinks.length) {
+      providers.push(provideNavLinks(navbarLinks));
+    }
+
     return {
       ngModule: NavbarModule,
-      providers: [{
-        provide: NavbarService,
-        useFactory: navbarServiceFactory,
-        deps: [NAVBAR_LINKS]
-      }, provideNavLinks(navbarLinks)
-      ]
+      providers: providers
     };
   }
 
