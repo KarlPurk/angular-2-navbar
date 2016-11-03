@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 
-
-export class NavbarLink {
+export class NavbarItem {
   route: string;
   label: string;
 }
 
-export type NavbarLinks = NavbarLink[];
+export type NavbarItems = NavbarItem[];
 
 @Injectable()
 export class NavbarService {
 
-  constructor(private navbarLinks: NavbarLinks) {}
+  constructor(private items: NavbarItems) {}
 
   getNavbarLinks() {
-    return this.navbarLinks;
+    return this.items;
   }
 
 }

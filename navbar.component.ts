@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChild, ViewChild, ViewContainerRef, TemplateRef } from '@angular/core';
-import { NavbarService, NavbarLink } from './navbar.service';
+import { NavbarService, NavbarItems } from './navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +8,7 @@ import { NavbarService, NavbarLink } from './navbar.service';
 })
 export class NavbarComponent implements OnInit {
 
-  private navbarLinks: NavbarLink[];
+  private items: NavbarItems;
 
   @ContentChild(TemplateRef) customTemplate: TemplateRef<Object>;
   @ViewChild(TemplateRef) defaultTemplate: TemplateRef<Object>;
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.navbarLinks = this.navbarService.getNavbarLinks();
+    this.items = this.navbarService.getNavbarLinks();
   }
 
   ngDoCheck() {
@@ -33,12 +33,12 @@ export class NavbarComponent implements OnInit {
 
     if (this.customTemplate) {
       this.viewContainer.createEmbeddedView.call(this.viewContainer, this.customTemplate, {
-        items: this.navbarLinks
+        items: this.items
       });
     }
     else {
       this.viewContainer.createEmbeddedView.call(this.viewContainer, this.defaultTemplate, {
-        items: this.navbarLinks
+        items: this.items
       });
     }
   }

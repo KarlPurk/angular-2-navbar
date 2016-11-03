@@ -2,13 +2,13 @@ import { NgModule, ModuleWithProviders, ANALYZE_FOR_ENTRY_COMPONENTS, OpaqueToke
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
-import { NavbarService, NavbarLinks, NavbarLink } from './navbar.service';
+import { NavbarService, NavbarItems } from './navbar.service';
 
-const NAVBAR_LINKS = new OpaqueToken('NAVBAR_LINKS');
+const NAVBAR_ITEMS = new OpaqueToken('NAVBAR_ITEMS');
 
-function navbarServiceFactory(navLinks: NavbarLinks[]) {
-  let links = navLinks.reduce((aggregate, items) => aggregate.concat(items), []);
-  return new NavbarService(links);
+function navbarServiceFactory(itemsCollection: NavbarItems[]) {
+  let items = itemsCollection.reduce((aggregate, items) => aggregate.concat(items), []);
+  return new NavbarService(items);
 }
 
 @NgModule({
@@ -21,26 +21,26 @@ function navbarServiceFactory(navLinks: NavbarLinks[]) {
   ],
   declarations: [NavbarComponent]
 })
-export class NavbarModule {
+export class NavbarModule { 
 
   constructor(private navbarService: NavbarService) {}
 
-  static forChild(navbarLinks: NavbarLinks): ModuleWithProviders {
-    return {ngModule: NavbarModule, providers: [provideNavLinks(navbarLinks)]};
+  static forChild(items: NavbarItems): ModuleWithProviders {
+    return {ngModule: NavbarModule, providers: [provideItems(items)]};
   }
 
-  static forRoot(navbarLinks: NavbarLinks = []): ModuleWithProviders {
-
+  static forRoot(items: NavbarItems = []): ModuleWithProviders {
+    
     let providers = [{
       provide: NavbarService,
       useFactory: navbarServiceFactory,
-      deps: [NAVBAR_LINKS]
+      deps: [NAVBAR_ITEMS]
     }];
 
-    if (navbarLinks.length) {
-      providers.push(provideNavLinks(navbarLinks));
+    if (items.length) {
+      providers.push(provideItems(items));
     }
-
+    
     return {
       ngModule: NavbarModule,
       providers: providers
@@ -49,9 +49,9 @@ export class NavbarModule {
 
 }
 
-export function provideNavLinks(navbarLinks: NavbarLinks): any {
+export function provideItems(items: NavbarItems): any {
   return [
-    {provide: ANALYZE_FOR_ENTRY_COMPONENTS, multi: true, useValue: navbarLinks},
-    {provide: NAVBAR_LINKS, multi: true, useValue: navbarLinks}
+    {provide: ANALYZE_FOR_ENTRY_COMPONENTS, multi: true, useValue: items},
+    {provide: NAVBAR_ITEMS, multi: true, useValue: items}
   ];
 }
