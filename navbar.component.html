@@ -1,5 +1,7 @@
-<ul>
-  <li *ngFor="let navbarLink of navbarLinks">
-    <a routerLink="{{ navbarLink.route }}">{{ navbarLink.label }}</a>
-  </li>
-</ul>
+<template let-items="items">
+  <div class="ui menu">
+    <a *ngFor="let item of items" class="item" [routerLinkActive]="['active']" [routerLink]="item.route">
+      {{ item.label }}
+    </a>
+  </div>
+</template>
