@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.items = this.navbarService.getNavbarLinks();
+    this.items = this.navbarService.getNavbarItems();
   }
 
   ngDoCheck() {

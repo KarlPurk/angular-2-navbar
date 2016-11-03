@@ -12,7 +12,7 @@ export class NavbarService {
 
   constructor(private items: NavbarItems) {}
 
-  getNavbarLinks() {
+  getNavbarItems() {
     return this.items;
   }
 
