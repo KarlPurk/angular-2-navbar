@@ -23,13 +23,11 @@ export class NavbarComponent implements OnInit {
 
   ngDoCheck() {
 
-    if (this.viewContainer.length > 0) {
-      return;
-    }
-
     if (!this.defaultTemplate && !this.customTemplate) {
       return;
     }
+      
+    this.viewContainer.clear();
 
     if (this.customTemplate) {
       this.viewContainer.createEmbeddedView.call(this.viewContainer, this.customTemplate, {

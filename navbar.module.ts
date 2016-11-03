@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, ANALYZE_FOR_ENTRY_COMPONENTS, OpaqueToken } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injector, OpaqueToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
@@ -6,9 +6,9 @@ import { NavbarService, NavbarItems } from './navbar.service';
 
 const NAVBAR_ITEMS = new OpaqueToken('NAVBAR_ITEMS');
 
-function navbarServiceFactory(itemsCollection: NavbarItems[]) {
+function navbarServiceFactory(itemsCollection: NavbarItems[], injector: Injector) {
   let items = itemsCollection.reduce((aggregate, items) => aggregate.concat(items), []);
-  return new NavbarService(items);
+  return new NavbarService(items, injector);
 }
 
 @NgModule({
@@ -34,7 +34,7 @@ export class NavbarModule {
     let providers = [{
       provide: NavbarService,
       useFactory: navbarServiceFactory,
-      deps: [NAVBAR_ITEMS]
+      deps: [NAVBAR_ITEMS, Injector]
     }];
 
     if (items.length) {
