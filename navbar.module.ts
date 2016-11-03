@@ -51,7 +51,6 @@ export class NavbarModule {
 
 export function provideItems(items: NavbarItems): any {
   return [
-    {provide: ANALYZE_FOR_ENTRY_COMPONENTS, multi: true, useValue: items},
     {provide: NAVBAR_ITEMS, multi: true, useValue: items}
   ];
 }
