@@ -7,8 +7,8 @@ import { NavbarService, NavbarItems } from './navbar.service';
 const NAVBAR_ITEMS = new OpaqueToken('NAVBAR_ITEMS');
 
 function navbarServiceFactory(itemsCollection: NavbarItems[], injector: Injector) {
-  let items = itemsCollection.reduce((aggregate, items) => aggregate.concat(items), []);
-  return new NavbarService(items, injector);
+  let allItems = itemsCollection.reduce((aggregate, items) => aggregate.concat(items), []);
+  return new NavbarService(allItems, injector);
 }
 
 @NgModule({
@@ -21,16 +21,14 @@ function navbarServiceFactory(itemsCollection: NavbarItems[], injector: Injector
   ],
   declarations: [NavbarComponent]
 })
-export class NavbarModule { 
-
-  constructor(private navbarService: NavbarService) {}
+export class NavbarModule {
 
   static forChild(items: NavbarItems): ModuleWithProviders {
     return {ngModule: NavbarModule, providers: [provideItems(items)]};
   }
 
   static forRoot(items: NavbarItems = []): ModuleWithProviders {
-    
+
     let providers = [{
       provide: NavbarService,
       useFactory: navbarServiceFactory,
@@ -40,12 +38,14 @@ export class NavbarModule {
     if (items.length) {
       providers.push(provideItems(items));
     }
-    
+
     return {
       ngModule: NavbarModule,
       providers: providers
     };
   }
+
+  constructor(private navbarService: NavbarService) {}
 
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ContentChild, ViewChild, ViewContainerRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, ContentChild, ViewChild, ViewContainerRef, TemplateRef, DoCheck } from '@angular/core';
 import { NavbarService, NavbarItems } from './navbar.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { NavbarService, NavbarItems } from './navbar.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, DoCheck {
 
   private items: NavbarItems;
 
@@ -26,15 +26,14 @@ export class NavbarComponent implements OnInit {
     if (!this.defaultTemplate && !this.customTemplate) {
       return;
     }
-      
+
     this.viewContainer.clear();
 
     if (this.customTemplate) {
       this.viewContainer.createEmbeddedView.call(this.viewContainer, this.customTemplate, {
         items: this.items
       });
-    }
-    else {
+    } else {
       this.viewContainer.createEmbeddedView.call(this.viewContainer, this.defaultTemplate, {
         items: this.items
       });

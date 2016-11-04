@@ -4,7 +4,7 @@ export interface NavbarItem {
   route: string;
   label: string;
   canDisplay?: Function[];
-} 
+}
 
 export type NavbarItems = NavbarItem[];
 
@@ -20,7 +20,7 @@ export class NavbarService {
         return true;
       }
       return item.canDisplay.filter((guard) => this.injector.get(guard).canActivate(item)).length;
-    }
+    };
     return this.items.filter((item) => canDisplay(item));
   }
 
