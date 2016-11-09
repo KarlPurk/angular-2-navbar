@@ -11,6 +11,12 @@ function navbarServiceFactory(itemsCollection: NavbarItems[], injector: Injector
   return new NavbarService(allItems, injector);
 }
 
+export function provideItems(items: NavbarItems): any {
+  return [
+    {provide: NAVBAR_ITEMS, multi: true, useValue: items}
+  ];
+}
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +30,8 @@ function navbarServiceFactory(itemsCollection: NavbarItems[], injector: Injector
 export class NavbarModule {
 
   static forChild(items: NavbarItems): ModuleWithProviders {
-    return {ngModule: NavbarModule, providers: [provideItems(items)]};
+    const providers = provideItems(items);
+    return {ngModule: NavbarModule, providers: [providers]};
   }
 
   static forRoot(items: NavbarItems = []): ModuleWithProviders {
@@ -49,8 +56,3 @@ export class NavbarModule {
 
 }
 
-export function provideItems(items: NavbarItems): any {
-  return [
-    {provide: NAVBAR_ITEMS, multi: true, useValue: items}
-  ];
-}
